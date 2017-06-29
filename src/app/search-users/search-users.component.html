@@ -1,0 +1,49 @@
+<div class="container">
+  <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Github Users Search</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      </ul>
+      <div class="col-sm-12 col-md-10 text-right">
+        <form class="form-inline navbar-form text-center">
+          <div class="form-group">
+            <input type="text col-md-4" placeholder="Location name e.g Delhi" class="form-control" id="location" #place>
+          </div>
+          <div class="form-group">
+            <input type="text" placeholder="Language e.g PHP" class="form-control" id="language" #language>
+          </div>
+          <button type="submit" (click)="search(place.value, language.value)" class="btn btn-default">Search</button>
+        </form>
+      </div>
+    </div><!-- /.navbar-collapse -->
+  </nav>
+  <div class="row">
+    <p class="text-center" style="padding: 1em; color:red;" *ngIf="error_text">{{ error_text }}</p>
+    <div [ngClass]="{'col-md-9': selected, 'col-md-12': !selected}">
+      <!--<div class="user col-xs-2 text-center" *ngFor="let user of results">-->
+      <div class="user col-xs-2 text-center" *ngFor="let user of results" (click)="getDetails(user.login)">
+        <div class="img_container">
+          <img [src]="user.avatar_url" class="img-circle" width="100" height="100">
+        </div>
+        <div class="details_container">
+          <a href="{{user.html_url}}" target="_blank" class="login_name">{{ user.login }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="custom-pager">
+    <ul class="pager" *ngIf="results.length">
+      <li>
+        <button [disabled]="disablePrevButton" (click)="getPrevPage(place.value, language.value)">Previous</button>
+      </li>
+      <li>
+        <button (click)="getNextPage(place.value, language.value)">Next</button>
+      </li>
+    </ul>
+  </div>
+</div>
